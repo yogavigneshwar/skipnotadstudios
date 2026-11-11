@@ -48,6 +48,10 @@ class SupabaseManager {
       try {
         this.client = window.supabase.createClient(this.config.url, this.config.anonKey);
         console.log('✓ Supabase Cloud Client Initialized successfully.');
+        // Automated keep-alive ping: keeps Supabase active even on casual page visits
+        this.client.from('snas_staff').select('id', { head: true, count: 'exact' }).then(() => {
+          console.log('✓ Supabase keep-alive pulse active.');
+        }).catch(() => {});
       } catch (err) {
         console.error('Failed to initialize Supabase client:', err);
         this.client = null;
