@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Local Overrides
+.env
+.env.local
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+.vercel
