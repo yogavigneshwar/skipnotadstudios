@@ -71,26 +71,6 @@ class PortalEngine {
       });
     }
 
-    // Quick Fill demo logins
-    document.querySelectorAll('[data-quick-login]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const type = btn.getAttribute('data-quick-login');
-        if (type === 'admin') {
-          document.getElementById('portal-username').value = 'snas@001';
-          document.getElementById('portal-password').value = 'gowiththeflow';
-        } else if (type === 'cam') {
-          document.getElementById('portal-username').value = 'cam01';
-          document.getElementById('portal-password').value = 'cam123';
-        } else if (type === 'mkt') {
-          document.getElementById('portal-username').value = 'mkt01';
-          document.getElementById('portal-password').value = 'mkt123';
-        } else if (type === 'dev') {
-          document.getElementById('portal-username').value = 'dev01';
-          document.getElementById('portal-password').value = 'dev123';
-        }
-      });
-    });
-
     // Logout
     const logoutBtn = document.getElementById('portal-logout-btn');
     if (logoutBtn) {
@@ -913,7 +893,7 @@ class PortalEngine {
           <td><strong>${s.id}</strong></td>
           <td>
             <div style="font-weight: 700; color: #ffffff;">${s.name}</div>
-            <div style="font-size: 0.75rem; color: #64748b;">Username: <code>${s.username}</code> / Pass: <code>${s.password}</code></div>
+            <div style="font-size: 0.75rem; color: #64748b;">Username: <code>${s.username}</code></div>
           </td>
           <td>${s.role}</td>
           <td>${s.phone || '--'}</td>
@@ -966,7 +946,7 @@ class PortalEngine {
         </div>
         <div class="form-group">
           <label class="form-label">Portal Password:</label>
-          <input type="text" class="form-input" id="new-staff-password" required placeholder="e.g. campass123" />
+          <input type="password" class="form-input" id="new-staff-password" required placeholder="Enter password" />
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
           <button type="button" class="btn btn-secondary" onclick="window.SNAS_PORTAL.closeModal()">Cancel</button>
@@ -993,7 +973,7 @@ class PortalEngine {
         password
       });
 
-      alert(`Staff member ${created.name} (${created.id}) created successfully!\nThey can now login with Username: "${username}" and Password: "${password}".`);
+      alert(`Staff member ${created.name} (${created.id}) created successfully with Username: "${username}".`);
       this.closeModal();
       this.renderAdminStaffRoster();
       this.renderAdminKPIs();
