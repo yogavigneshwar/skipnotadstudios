@@ -109,6 +109,47 @@ class SupabaseManager {
     return null;
   }
 
+  // Push new/updated staff member to Supabase Cloud
+  async pushStaff(staff) {
+    if (!this.client) return null;
+    try {
+      const payload = {
+        id: staff.id,
+        username: staff.username,
+        password: staff.password,
+        name: staff.name,
+        role: staff.role,
+        department: staff.department || 'Operations',
+        phone: staff.phone || '',
+        base_salary: Number(staff.baseSalary) || 25000,
+        joined_date: staff.joinedDate || new Date().toISOString().split('T')[0],
+        avatar_url: staff.avatarUrl || '',
+        active: staff.active !== false
+      };
+      const { data, error } = await this.client.from('snas_staff').upsert(payload);
+      if (error) throw error;
+      console.log('✓ Staff pushed to Supabase:', staff.id);
+      return data;
+    } catch (e) {
+      console.warn('Failed pushing staff to Supabase:', e);
+    }
+    return null;
+  }
+
+  // Delete staff member from Supabase Cloud
+  async deleteStaff(staffId) {
+    if (!this.client) return null;
+    try {
+      const { error } = await this.client.from('snas_staff').delete().eq('id', staffId);
+      if (error) throw error;
+      console.log('✓ Staff deleted from Supabase:', staffId);
+      return true;
+    } catch (e) {
+      console.warn('Failed deleting staff from Supabase:', e);
+    }
+    return false;
+  }
+
   // Push attendance record to Supabase Cloud
   async pushAttendance(record) {
     if (!this.client) return null;

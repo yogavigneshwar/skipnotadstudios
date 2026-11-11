@@ -310,23 +310,33 @@ class DBManager {
 
   // Staff CRUD
   addStaff(staffMember) {
-    const id = `STAFF-${Date.now().toString().slice(-4)}`;
+    const id = staffMember.id || `STAFF-${Date.now().toString().slice(-4)}`;
     const newStaff = {
       id,
-      username: staffMember.username || `user${Math.floor(100 + Math.random() * 900)}`,
+      username: (staffMember.username || `user${Math.floor(100 + Math.random() * 900)}`).trim(),
       password: staffMember.password || 'snas123',
-      name: staffMember.name || 'Unnamed Staff',
-      role: staffMember.role || 'Production Staff',
-      department: staffMember.department || 'Operations',
-      phone: staffMember.phone || '',
+      name: (staffMember.name || 'Unnamed Staff').trim(),
+      role: (staffMember.role || 'Production Staff').trim(),
+      department: (staffMember.department || 'Operations').trim(),
+      phone: (staffMember.phone || '').trim(),
       baseSalary: Number(staffMember.baseSalary) || 25000,
-      joinedDate: new Date().toISOString().split('T')[0],
+      joinedDate: staffMember.joinedDate || new Date().toISOString().split('T')[0],
       avatarUrl: staffMember.avatarUrl || '',
       active: true
     };
     this.data.staff.push(newStaff);
     this.saveData();
     return newStaff;
+  }
+
+  deleteStaff(staffId) {
+    const idx = this.data.staff.findIndex(s => s.id === staffId);
+    if (idx !== -1) {
+      const removed = this.data.staff.splice(idx, 1)[0];
+      this.saveData();
+      return { success: true, staff: removed };
+    }
+    return { success: false, message: 'Staff member not found.' };
   }
 
   getStaffById(staffId) {

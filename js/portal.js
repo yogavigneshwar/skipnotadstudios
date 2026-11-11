@@ -902,6 +902,12 @@ class PortalEngine {
             <span style="color: #10b981; font-weight: 600;">₹${(salary?.estimatedPayout || 0).toLocaleString('en-IN')}</span>
             <div style="font-size: 0.7rem; color: #64748b;">(${salary?.presentDays || 0} days present)</div>
           </td>
+          <td>
+            <button type="button" class="btn-danger" onclick="window.SNAS_PORTAL.confirmDeleteStaff('${s.id}', '${s.name.replace(/'/g, "\\'")}')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              Delete
+            </button>
+          </td>
         </tr>
       `;
       })
@@ -911,6 +917,24 @@ class PortalEngine {
     const addStaffBtn = document.getElementById('btn-add-new-staff');
     if (addStaffBtn) {
       addStaffBtn.onclick = () => this.openAddStaffModal();
+    }
+  }
+
+  confirmDeleteStaff(staffId, staffName) {
+    const confirmed = confirm(`Are you sure you want to delete staff member "${staffName}" (${staffId})?\n\nThis will remove them from the active staff roster and revoke their portal access.`);
+    if (!confirmed) return;
+
+    const res = window.SNAS_DB.deleteStaff(staffId);
+    if (res.success) {
+      if (window.SNAS_SUPABASE) {
+        window.SNAS_SUPABASE.deleteStaff(staffId);
+      }
+      this.renderAdminStaffRoster();
+      this.renderAdminTaskManager();
+      this.renderAdminKPIs();
+      alert(`Staff member "${staffName}" (${staffId}) was deleted successfully.`);
+    } else {
+      alert(res.message || 'Failed to delete staff member.');
     }
   }
 
@@ -931,6 +955,15 @@ class PortalEngine {
         <div class="form-group">
           <label class="form-label">Role / Designation:</label>
           <input type="text" class="form-input" id="new-staff-role" required placeholder="e.g. Camera Operator / Video Editor / Dev" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Department:</label>
+          <select class="form-select" id="new-staff-department" style="width: 100%; background: #0c0f17; border: 1px solid rgba(255,255,255,0.12); color: #fff; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm);">
+            <option value="Production &amp; Video Team">Production &amp; Video Team</option>
+            <option value="Growth Marketing">Growth Marketing</option>
+            <option value="Software Engineering">Software Engineering</option>
+            <option value="Executive &amp; Operations">Executive &amp; Operations</option>
+          </select>
         </div>
         <div class="form-group">
           <label class="form-label">Contact Mobile Number:</label>
@@ -955,27 +988,42 @@ class PortalEngine {
       </form>
     `;
 
-    document.getElementById('add-staff-form').onsubmit = e => {
+    document.getElementById('add-staff-form').onsubmit = async e => {
       e.preventDefault();
       const name = document.getElementById('new-staff-name').value.trim();
       const role = document.getElementById('new-staff-role').value.trim();
+      const department = document.getElementById('new-staff-department').value.trim();
       const phone = document.getElementById('new-staff-phone').value.trim();
       const baseSalary = document.getElementById('new-staff-salary').value;
       const username = document.getElementById('new-staff-username').value.trim();
       const password = document.getElementById('new-staff-password').value.trim();
 
+      // Check if username already exists
+      const existingUser = window.SNAS_DB.data.staff.find(s => s.username.toLowerCase() === username.toLowerCase()) ||
+                           (window.SNAS_DB.data.admin.id.toLowerCase() === username.toLowerCase());
+      if (existingUser) {
+        alert(`The username "${username}" is already in use. Please choose another username.`);
+        return;
+      }
+
       const created = window.SNAS_DB.addStaff({
         name,
         role,
+        department,
         phone,
         baseSalary,
         username,
         password
       });
 
+      if (window.SNAS_SUPABASE) {
+        await window.SNAS_SUPABASE.pushStaff(created);
+      }
+
       alert(`Staff member ${created.name} (${created.id}) created successfully with Username: "${username}".`);
       this.closeModal();
       this.renderAdminStaffRoster();
+      this.renderAdminTaskManager();
       this.renderAdminKPIs();
     };
 
