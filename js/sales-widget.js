@@ -1,6 +1,6 @@
 /**
  * Skip Not Ad Studios - Official Live Sales Widget
- * Built for Vercel deployment on skipnotadstudios.com
+ * Built for Vercel deployment on skipnotadstudios.com (100% Executive English)
  */
 
 (function () {
@@ -26,7 +26,7 @@
   widgetContainer.id = 'snas-sales-widget';
   widgetContainer.innerHTML = `
     <!-- Floating Launcher -->
-    <div id="snas-launcher" class="snas-launcher" title="Chat with Skip Not Ad Studios AI">
+    <div id="snas-launcher" class="snas-launcher" title="Chat with Skip Not Ad Studios Growth Consultant">
       <span class="snas-badge"></span>
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </div>
@@ -46,21 +46,21 @@
 
       <div id="snas-messages" class="snas-messages">
         <div class="snas-msg snas-msg-agent">
-          Vanakkam! Welcome to <strong>Skip Not Ad Studios</strong>. 🚀<br><br>
-          We engineer high-ROAS <strong>Performance Marketing</strong> (Meta/Google Ads, Cinema Reels) and bespoke <strong>Software &amp; ERP Solutions</strong>.<br><br>
-          Unga business-ku marketing growth thevapadudha, or software solution-a?
+          Welcome to <strong>Skip Not Ad Studios</strong>. 🚀<br><br>
+          We engineer high-ROAS <strong>Performance Marketing</strong> (Meta &amp; Google Ads, Cinema Commercials) and bespoke <strong>Software &amp; ERP Solutions</strong>.<br><br>
+          Are you looking to accelerate your brand through growth marketing, or looking for custom software engineering?
         </div>
       </div>
 
       <div class="snas-quick-chips">
-        <button class="snas-chip" data-prompt="I need Meta & Google Ads for my brand">📢 Meta Ads</button>
-        <button class="snas-chip" data-prompt="How much for custom software / ERP?">💻 Custom Software</button>
-        <button class="snas-chip" data-prompt="Why custom quote? Can you explain?">💰 Pricing Info</button>
-        <button class="snas-chip" data-prompt="Let's book a 15-min discovery call">📅 Book Call</button>
+        <button class="snas-chip" data-prompt="We need Meta & Google ROAS Ads for our brand">📢 Meta Ads</button>
+        <button class="snas-chip" data-prompt="We need custom SaaS or ERP software">💻 Custom Software</button>
+        <button class="snas-chip" data-prompt="Why do you quote custom pricing instead of fixed packages?">💰 Pricing Info</button>
+        <button class="snas-chip" data-prompt="Let us schedule a 15-minute discovery call">📅 Book Call</button>
       </div>
 
       <form id="snas-form" class="snas-input-bar">
-        <input id="snas-input" type="text" placeholder="Type here in English or Tanglish..." autocomplete="off" />
+        <input id="snas-input" type="text" placeholder="Type your message here..." autocomplete="off" />
         <button type="submit" class="snas-send-btn">
           <svg style="width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:2;" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
         </button>
@@ -141,11 +141,11 @@
       if (data.reply) {
         appendMessage('agent', data.reply);
       } else {
-        appendMessage('agent', 'Connecting directly with our partners... You can also WhatsApp us at +91 6380404840');
+        appendMessage('agent', 'You can connect directly with our senior partners on WhatsApp: <a href="https://wa.me/916380404840" target="_blank">+91 6380404840</a>');
       }
     } catch (err) {
       hideTyping();
-      appendMessage('agent', 'You can connect directly with our founders on WhatsApp: <a href="https://wa.me/916380404840" target="_blank">+91 6380404840</a>');
+      appendMessage('agent', 'Connecting directly with our partners... Reach our official WhatsApp: <a href="https://wa.me/916380404840" target="_blank">+91 6380404840</a>');
     }
   }
 

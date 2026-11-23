@@ -1,11 +1,8 @@
 /**
  * Skip Not Ad Studios - Vercel Serverless Function: /api/chat
- * Dual-Engine Sales Brain (Gemini 2.0 Flash + Contextual State Machine)
+ * Executive Dual-Engine Sales Brain (100% Professional Consultative English)
  */
 
-const https = require('https');
-
-// Knowledge Base for Skip Not Ad Studios
 const BRAND_CONFIG = {
   name: "Skip Not Ad Studios",
   location: "Chennai, Tamil Nadu",
@@ -15,7 +12,7 @@ const BRAND_CONFIG = {
   website: "https://skipnotadstudios.com/"
 };
 
-// In-memory sessions store (survives container warm sessions)
+// In-memory sessions store (persists across warm serverless container executions)
 const SESSIONS = new Map();
 
 function getSession(sessionId) {
@@ -61,53 +58,53 @@ function extractEntities(rawText, session) {
   }
 }
 
-function generateLocalResponse(rawText, session) {
+function generateExecutiveResponse(rawText, session) {
   const text = rawText.toLowerCase().trim();
   const { lead, turns } = session;
 
-  if (text.includes('call') || text.includes('meet') || text.includes('schedule') || text.includes('calendly') || text.includes('pesalaam')) {
+  // Direct Discovery Call / Calendar Request
+  if (text.includes('call') || text.includes('meet') || text.includes('schedule') || text.includes('calendly') || text.includes('appointment')) {
     session.state.stage = 'BOOKING';
-    return `Kandippa! Let's lock in a 15-Minute Strategic Discovery Call. ☕\n\nEngaloda senior partners unga specific business model, target ROAS & software roadmap-ah direct-ah analyze panni detailed bespoke proposal pitch kudupaanga.\n\n👉 **Direct Booking:** [Click here to book a 15-min Google Meet](${BRAND_CONFIG.calendly})\n📲 **Or WhatsApp Us Directly:** [WhatsApp +91 6380404840](${BRAND_CONFIG.whatsapp})\n\nSlot book pannadhum immediate-ah invite vandhudum bro!`;
+    return `Certainly! Let's schedule a 15-minute Strategic Discovery Call. ☕\n\nOur senior partners will analyze your exact business model, target acquisition economics, and technical roadmap to present a bespoke proposal pitch.\n\n👉 **Direct Calendar Booking:** [Schedule a 15-Min Google Meet](${BRAND_CONFIG.calendly})\n📲 **Or Reach Us on WhatsApp:** [WhatsApp +91 6380404840](${BRAND_CONFIG.whatsapp})\n\nOnce scheduled, calendar confirmation and meeting credentials will be sent instantly.`;
   }
 
+  // Contact Number Acknowledgment
   if (lead.phone && session.turns === 1) {
-    return `Got your contact (${lead.phone})! Nandri bro. 🙏\n\nEngaloda partner team ungaluku WhatsApp-la initial project brief & discovery call slots anuppuvom.\n\nMean time-la unga project kickoff immediate-ah or next month-la plan pandreengala?`;
+    return `Thank you for sharing your contact number (${lead.phone}). Our senior leadership team has logged your inquiry and will reach out via WhatsApp with our initial proposal outline and discovery call slots.\n\nIn the meantime, what is your anticipated project kickoff timeline (immediate or next month)?`;
   }
 
-  if (text.includes('price') || text.includes('pricing') || text.includes('cost') || text.includes('budget') || text.includes('evlo') || text.includes('package') || text.includes('quote')) {
-    return `Pricing pathi transparent-ah solren bro: Skip Not Ad Studios-la naanga **cookie-cutter packages sell panradhu illa**.\n\nEnna karanam na, oru luxury salon or food brand-ku theva padura creative ad funnels, oru scalable custom ERP software or SaaS platform-ku completely different.\n\n📌 **Engaloda 4-Step Strategic Pitch Protocol:**\n1. First unga core conversion bottleneck & business goal-ah purinjipom.\n2. Landscape & competitor audit pannuvom.\n3. Exact revenue/deliverables milestones-oda **Bespoke Proposal Pitch** tharuvom.\n\nUnga requirement sonneenga na, **same-day customized quote** anuppiduvom. Unga requirement enna bro?`;
+  // Pricing / Why No Cookie-Cutter Packages?
+  if (text.includes('price') || text.includes('pricing') || text.includes('cost') || text.includes('budget') || text.includes('rate') || text.includes('quote') || text.includes('package')) {
+    return `Regarding our pricing model: Skip Not Ad Studios maintains a strict policy against cookie-cutter packages.\n\nNo two businesses have identical customer acquisition economics, gross margins, or operational bottlenecks. Rigid package pricing is built for lazy agencies; bespoke growth architecture is built for market leaders.\n\n📌 **Our 4-Step Strategic Pitch Protocol:**\n1. **Business Need Discovery:** Pinpointing your exact unit economics and conversion hurdles.\n2. **Landscape Audit:** Analyzing Chennai & national competitors, audience fatigue, and ad saturation.\n3. **Bespoke Proposal Pitch:** Presenting tailored creative storyboards, technical architecture, and revenue milestones.\n4. **Execution & Scaling:** Rapid cinema production or software deployment with milestone governance.\n\nShare your core project requirements with us, and we will deliver a transparent, same-day customized quote. What specific milestones are you targeting?`;
   }
 
-  if (text.includes('ad') || text.includes('meta') || text.includes('google') || text.includes('marketing') || text.includes('roas') || text.includes('reel') || text.includes('video')) {
+  // Digital Marketing & Cinema Ads Inquiry
+  if (text.includes('ad') || text.includes('meta') || text.includes('google') || text.includes('marketing') || text.includes('roas') || text.includes('reel') || text.includes('video') || text.includes('film')) {
     session.state.service = 'Digital Marketing & Cinema Ads';
-    return `Awesome! Skip Not Ad Studios-la naanga generic templates poduradhilla. We engineer **Cinema-Grade Ad Film Creatives + High-ROAS Performance Marketing** (Meta CBO & Google Ads).\n\nAutomotive, Food, Healthcare, Fitness and Luxury aesthetics brands-ku high-converting reels & ad funnels build pannirukkom.\n\nUnga brand enna category? Currently ads run pannirukeengala, or fresh-ah start panna poreengala?`;
+    return `Excellent. At Skip Not Ad Studios, we do not produce generic social media templates. We combine **Cinema-Grade 4K Ad Commercials** with **Algorithmic High-ROAS Performance Marketing** (Meta CBO & Google Ads).\n\nWe partner with premier brands across automotive care, luxury aesthetics, gourmet food, and fitness to deliver high-converting creative reels and multi-stage ad funnels.\n\nWhich industry does your brand operate in, and are you currently running paid campaigns?`;
   }
 
-  if (text.includes('software') || text.includes('saas') || text.includes('erp') || text.includes('app') || text.includes('billing') || text.includes('portal')) {
+  // Software & ERP Inquiry
+  if (text.includes('software') || text.includes('saas') || text.includes('erp') || text.includes('app') || text.includes('billing') || text.includes('portal') || text.includes('tech')) {
     session.state.service = 'Bespoke Software & ERP';
-    return `Great! Skip Not-la modular & scalable bespoke software develop pandrom:\n\n• **Enterprise ERP Modules:** Geo-fenced staff attendance, task tracking, automated payroll & billing.\n• **Custom SaaS Products:** Multi-tenant scalable cloud apps.\n• **Custom Client Portals & Web Apps:** High-speed, responsive systems.\n\nUnga requirement: Existing manual workflow-ah automate pannanuma, or pudhu software product scratch-la build pannanuma?`;
+    return `Great! Skip Not Ad Studios engineers cloud-native, modular software solutions:\n\n• **Enterprise ERP Modules:** Geofenced staff attendance, task delegation, automated payroll & billing.\n• **Custom SaaS Products:** Scalable multi-tenant cloud applications.\n• **Client Portals & Booking Engines:** High-performance, secure digital platforms.\n\nIs your objective to automate an existing operational workflow, or build a bespoke software platform from scratch?`;
   }
 
-  if (turns <= 1 || text.includes('hi') || text.includes('hello') || text.includes('vanakkam')) {
-    return `Vanakkam! Welcome to **Skip Not Ad Studios**. 🚀\n\nNaanga high-ROAS **Performance Marketing** (Meta/Google Ads, Cinema Reels) and bespoke **Software & ERP Engineering** provide pandrom.\n\nUnga business growth-ku marketing thevapadudha, or software solution-a bro?`;
+  // General Greetings
+  if (turns <= 1 || text.includes('hi') || text.includes('hello') || text.includes('hey')) {
+    return `Welcome to **Skip Not Ad Studios**. 🚀\n\nWe engineer high-ROAS **Performance Marketing** (Meta & Google Ads, Cinema Commercials) and bespoke **Software & ERP Engineering**.\n\nAre you looking to scale your business through high-impact marketing, or engineer a custom software solution?`;
   }
 
-  return `Kandippa bro! Unga goal-ku thaguntha precise strategy-ah design panna Skip Not team ready-ah irukom.\n\nOru quick 15-min discovery call fix pannalama, or unga WhatsApp number share pannunga direct-ah contact pandrom!`;
+  return `Understood. Our strategy team is fully equipped to evaluate your requirements and engineer a targeted roadmap.\n\nWould you like to schedule a brief 15-minute discovery call, or share your contact number so a senior partner can connect with you directly?`;
 }
 
 module.exports = async (req, res) => {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
     const body = req.body || {};
@@ -123,12 +120,12 @@ module.exports = async (req, res) => {
     extractEntities(message, session);
 
     session.history.push({ role: 'user', content: message });
-    const reply = generateLocalResponse(message, session);
+    const reply = generateExecutiveResponse(message, session);
     session.history.push({ role: 'assistant', content: reply });
 
     return res.status(200).json({
       reply,
-      engine: 'dual-nlp',
+      engine: 'executive-nlp',
       lead: session.lead,
       service: session.state.service,
       turnCount: session.turns
