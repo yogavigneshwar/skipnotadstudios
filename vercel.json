@@ -10,6 +10,14 @@
     {
       "source": "/admin",
       "destination": "/index.html#admin"
+    },
+    {
+      "source": "/outbound",
+      "destination": "/outbound.html"
+    },
+    {
+      "source": "/crm",
+      "destination": "/crm.html"
     }
   ]
 }

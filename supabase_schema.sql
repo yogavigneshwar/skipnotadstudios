@@ -106,3 +106,29 @@ BEGIN
   RETURN deleted_count;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- =====================================================================
+-- 8. AI Sales Leads Ingestion Table
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS snas_leads (
+  id VARCHAR(50) PRIMARY KEY,
+  session_id VARCHAR(100),
+  name VARCHAR(150),
+  phone VARCHAR(50),
+  email VARCHAR(150),
+  company VARCHAR(150),
+  service VARCHAR(150),
+  niche VARCHAR(100),
+  status VARCHAR(30) DEFAULT 'WARM',
+  budget VARCHAR(100),
+  scheduled_call BOOLEAN DEFAULT FALSE,
+  last_message TEXT,
+  transcript TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE snas_leads ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow public read/write to leads" ON snas_leads;
+CREATE POLICY "Allow public read/write to leads" ON snas_leads FOR ALL USING (true);

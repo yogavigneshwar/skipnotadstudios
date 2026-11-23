@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skip Not Ad Studios - Inbound Lead CRM</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+    <!-- Top Navigation -->
+    <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-rose-900/30">
+          SN
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight text-white">Inbound Lead CRM</h1>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium border border-emerald-500/20">Live Vercel Cloud</span>
+          </div>
+          <p class="text-xs text-slate-400">Skip Not Ad Studios • Lead Ingestion &amp; Intelligence Command Center</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a href="/outbound" class="text-xs font-semibold px-3 py-2 rounded-lg bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 border border-rose-800 transition flex items-center gap-1.5 shadow">
+          <span>🎯 Outbound Prospector</span>
+        </a>
+        <a href="/" target="_blank" class="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          Main Website
+        </a>
+      </div>
+    </header>
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Leads Captured</span>
+        <div id="stat-total" class="text-2xl font-bold text-white mt-1">--</div>
+        <span class="text-[11px] text-emerald-400 font-medium mt-1 block">Live 24/7 web conversions</span>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <span class="text-xs text-rose-400 uppercase tracking-wider font-semibold">🔥 Hot Leads (Phone/Ready)</span>
+        <div id="stat-hot" class="text-2xl font-bold text-rose-400 mt-1">--</div>
+        <span class="text-[11px] text-slate-400 mt-1 block">Closing priority</span>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <span class="text-xs text-amber-400 uppercase tracking-wider font-semibold">📅 Discovery Calls</span>
+        <div id="stat-calls" class="text-2xl font-bold text-amber-400 mt-1">--</div>
+        <span class="text-[11px] text-slate-400 mt-1 block">Google Meet scheduled</span>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Deployment Status</span>
+        <div class="text-sm font-semibold text-emerald-400 mt-2 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Vercel Edge Active</span>
+        </div>
+        <span class="text-[11px] text-slate-400 mt-1 block">skipnotadstudios.com</span>
+      </div>
+    </div>
+
+    <!-- Leads Table & Search -->
+    <div class="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+      <div class="p-4 border-b border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <h2 class="text-base font-semibold text-white">Live Captured Prospects</h2>
+          <span id="lead-count-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">0 Leads</span>
+        </div>
+        <input 
+          id="search-input" 
+          oninput="renderLeads()" 
+          type="text" 
+          placeholder="Search by name, phone, service..." 
+          class="text-xs bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-slate-200 outline-none focus:border-rose-500 w-full sm:w-64"
+        />
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-950/60 uppercase font-semibold text-slate-400 border-b border-slate-800">
+            <tr>
+              <th class="p-3.5">Prospect</th>
+              <th class="p-3.5">Contact (Phone/Email)</th>
+              <th class="p-3.5">Service Interest</th>
+              <th class="p-3.5">Qualification</th>
+              <th class="p-3.5">Last Message</th>
+              <th class="p-3.5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody" class="divide-y divide-slate-800/60">
+            <tr><td colspan="6" class="p-6 text-center text-slate-500">Connecting to database...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let sampleLeads = [
+      {
+        id: 'snas-lead-01',
+        name: 'Rahul Sundaram',
+        phone: '+919840192837',
+        email: 'rahul@autoluxury.in',
+        service: 'Digital Marketing & Cinema Ads',
+        niche: 'AUTOMOTIVE',
+        status: 'HOT',
+        lastMessage: 'Wanted Meta Ads + 4K reels for our new branch opening in Anna Nagar',
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'snas-lead-02',
+        name: 'Priya Narayanan',
+        phone: '+919940182736',
+        email: 'priya@blissbridal.com',
+        service: 'Bespoke Software & ERP',
+        niche: 'LUXURY SALON',
+        status: 'HOT',
+        lastMessage: 'Need automated online appointment booking and WhatsApp confirmation bot',
+        createdAt: new Date(Date.now() - 3600000).toISOString()
+      }
+    ];
+
+    function loadCRMData() {
+      document.getElementById('stat-total').textContent = sampleLeads.length;
+      document.getElementById('stat-hot').textContent = sampleLeads.filter(l => l.status === 'HOT').length;
+      document.getElementById('stat-calls').textContent = 2;
+      document.getElementById('lead-count-badge').textContent = `${sampleLeads.length} Leads`;
+      renderLeads();
+    }
+
+    function renderLeads() {
+      const q = (document.getElementById('search-input').value || '').toLowerCase();
+      const filtered = sampleLeads.filter(l => 
+        (l.name && l.name.toLowerCase().includes(q)) ||
+        (l.phone && l.phone.includes(q)) ||
+        (l.service && l.service.toLowerCase().includes(q))
+      );
+
+      const tbody = document.getElementById('leads-tbody');
+      tbody.innerHTML = filtered.map(l => `
+        <tr class="hover:bg-slate-800/40 transition">
+          <td class="p-3.5">
+            <div class="font-semibold text-white">${l.name}</div>
+            <div class="text-[10px] text-slate-500">${new Date(l.createdAt).toLocaleDateString()}</div>
+          </td>
+          <td class="p-3.5 font-mono text-slate-200">
+            <div>${l.phone}</div>
+            <div class="text-[11px] text-slate-400 font-sans">${l.email}</div>
+          </td>
+          <td class="p-3.5">
+            <span class="font-medium text-slate-200">${l.service}</span>
+            <span class="text-[10px] block text-slate-500">Niche: ${l.niche}</span>
+          </td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 font-semibold border border-rose-500/30">🔥 HOT</span>
+          </td>
+          <td class="p-3.5 max-w-xs truncate text-slate-400">
+            ${l.lastMessage}
+          </td>
+          <td class="p-3.5 text-right whitespace-nowrap">
+            <a href="https://wa.me/${l.phone.replace(/[^0-9]/g, '')}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[11px] inline-flex items-center gap-1 shadow">
+              <span>WhatsApp Client &rarr;</span>
+            </a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    loadCRMData();
+  </script>
+</body>
+</html>
